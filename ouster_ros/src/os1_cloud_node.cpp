@@ -28,9 +28,12 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh("~");
 
     auto tf_prefix = nh.param("tf_prefix", std::string{});
-    auto sensor_frame = tf_prefix + "/os1_sensor";
-    auto imu_frame = tf_prefix + "/os1_imu";
-    auto lidar_frame = tf_prefix + "/os1_lidar";
+    //auto sensor_frame = tf_prefix + "/os1_sensor";
+    //auto imu_frame = tf_prefix + "/os1_imu";
+    //auto lidar_frame = tf_prefix + "/os1_lidar";
+    auto sensor_frame = "os1_sensor";
+    auto imu_frame = "os1_imu";
+    auto lidar_frame = "os1_lidar";
 
     ouster_ros::OS1ConfigSrv cfg{};
     auto client = nh.serviceClient<ouster_ros::OS1ConfigSrv>("os1_config");
@@ -75,14 +78,15 @@ int main(int argc, char** argv) {
     auto imu_packet_sub = nh.subscribe<PacketMsg, const PacketMsg&>(
         "imu_packets", 100, imu_handler);
 
+    // COMMENTED OUT TRANSFORMS DUE TO CARTOGRAPHER TF CONFLICT
     // publish transforms
-    tf2_ros::StaticTransformBroadcaster tf_bcast{};
+    //tf2_ros::StaticTransformBroadcaster tf_bcast{};
 
-    tf_bcast.sendTransform(ouster_ros::OS1::transform_to_tf_msg(
-        cfg.response.imu_to_sensor_transform, sensor_frame, imu_frame));
+    //tf_bcast.sendTransform(ouster_ros::OS1::transform_to_tf_msg(
+    //    cfg.response.imu_to_sensor_transform, sensor_frame, imu_frame));
 
-    tf_bcast.sendTransform(ouster_ros::OS1::transform_to_tf_msg(
-        cfg.response.lidar_to_sensor_transform, sensor_frame, lidar_frame));
+    //tf_bcast.sendTransform(ouster_ros::OS1::transform_to_tf_msg(
+    //    cfg.response.lidar_to_sensor_transform, sensor_frame, lidar_frame));
 
     ros::spin();
 

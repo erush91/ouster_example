@@ -61,11 +61,11 @@ target_link_libraries(ouster_viz
   ${viz_LINK_LIBRARIES}
 )
 
-
-add_executable(viz
+# changed viz to os_viz due to rosflight viz catkin_make conflict)
+add_executable(os_viz
   src/main.cpp
   src/viz.cpp)
-target_link_libraries(viz
+target_link_libraries(os_viz
   ${VTK_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${viz_LINK_LIBRARIES}
